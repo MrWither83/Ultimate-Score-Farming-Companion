@@ -1,0 +1,75 @@
+@font-face {
+    font-family: 'Exo 2 Medium';
+    src: url('../assets/Exo2-Medium.ttf');
+}
+
+html {
+    font-family: 'Exo 2 Medium';
+}
+
+.topBar {
+    width: auto;
+    height: 10%;
+    width: 100%;
+    top: 0;
+    left: 0;
+    position: absolute;
+    z-index: 3;
+    background-color: #222222;
+    transition-duration: 0.5s;
+}
+
+.statDisplayText {
+    padding: 10px;
+    font-size: 5vh;
+    color: #EEEEEE;
+    transition-duration: 0.5s;
+}
+
+.center {
+    display: flex;
+    margin: auto;
+    align-items: center;
+    justify-content: center;
+}
+
+body {
+    margin: 0;
+    background-color: transparent;
+}
+
+.bg-image {
+    /* The image used */
+    background-image: url("../assets/bg2.png");
+    /* Add the blur effect */
+    filter: blur(1px) brightness(0.5);
+    -webkit-filter: blur(1px) brightness(0.5);
+    /* Full height */
+    height: 100vh;
+    /* z-index: 1; */
+    /* Center and scale the image nicely */
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+.carouselContainer {
+    top: 0;
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    z-index: 2;
+}
+
+.progress-ring {}
+
+.progress-ring__circle {
+    transition: 0.35s stroke-dashoffset;
+    /* axis compensation */
+    transform: rotate(-90deg);
+    transform-origin: 50% 50%;
+}
+
+.progress-ring-bg {
+    stroke: #222222;
+}

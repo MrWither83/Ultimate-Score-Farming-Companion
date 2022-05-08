@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <!-- https://developer.mozilla.org/en-US/docs/Web/HTTP/CSP -->
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'">
+    <meta http-equiv="X-Content-Security-Policy" content="default-src 'self'; script-src 'self'">
+    <link rel="stylesheet" type="text/css" href="styles/main.css">
+    <title>Hello World!</title>
+</head>
+
+
+<body>
+    <div class="bg-image"></div>
+    <div class="center topBar">
+        <p class="statDisplayText">123,456,789,000 Ranked Score</p>
+    </div>
+
+    <canvas id="levelCircleCarousel" class="center carouselContainer">
+        <!-- <svg class="progress-ring" width="120" height="120"> -->
+            <!-- <circle
+            class="progress-ring-bg"
+            r="60"
+            cx="60"
+            cy="60"
+            /> -->
+            <!-- <circle
+            class="progress-ring__circle"
+            stroke="white"
+            stroke-width="4"
+            fill="transparent"
+            r="52"
+            cx="60"
+            cy="60"/> -->
+        <!-- </svg> -->
+            </canvas>
+
+</body>
+
+<script src="levelcircle.js"></script>
+<script src="carousel.js"></script>
+
+</html>
