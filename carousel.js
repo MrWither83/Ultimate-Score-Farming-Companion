@@ -1,4 +1,5 @@
 let levelCircles = [];
+let currentCircle = 1;
 
 function carouselScroll(event) {
     console.log(event.deltaY);
@@ -12,16 +13,31 @@ const CIRCLE_COUNT = 1;
 function windowResize() {
     carouselCanvas.width = window.innerWidth;
     carouselCanvas.height = window.innerHeight;
-    levelCircles.forEach(circle => {
-        circle.setDesiredX(carouselCanvas.width / 2);
-        circle.setDesiredY(carouselCanvas.height / 2);
-        circle.setDesiredRadius(carouselCanvas.height / 3);
-    })
+
+    for (let index = 0; index < levelCircles.length; index++) {
+        const circle = levelCircles[index];
+        circle.setDesiredX(getCircleX(index));
+        circle.setDesiredY(getCircleY(index));
+        circle.setDesiredRadius(getCircleRadius(index));
+    }
+
     draw();
 };
 
 window.addEventListener('resize', windowResize);
 
+
+function getCircleX(circleIndex) {
+    return (currentCircle - circleIndex) * carouselCanvas.width / 4 + carouselCanvas.width / 2;
+}
+
+function getCircleY(circleIndex) {
+    return carouselCanvas.height / 2 + Math.abs(currentCircle - circleIndex) * carouselCanvas.height / 6;
+}
+
+function getCircleRadius(circleIndex) {
+    return carouselCanvas.height / 3 - Math.abs(currentCircle - circleIndex) * carouselCanvas.height / 4
+}
 
 function draw() {
     if (carouselCanvas.getContext) {
@@ -47,9 +63,9 @@ function init() {
     carouselCanvas.height = window.innerHeight;
 
     for (let i = 0; i < CIRCLE_COUNT; i++) {
-        var X = carouselCanvas.width / 2;
-        var Y = carouselCanvas.height / 2;
-        var R = carouselCanvas.height / 3;
+        var X = getCircleX(i);
+        var Y = getCircleY(i);
+        var R = getCircleRadius(i);
         const levelCircle = new LevelCircle(X, Y, R);
         requestAnimationFrame(levelCircle.update.bind(levelCircle));
         levelCircles.push(levelCircle);

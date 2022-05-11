@@ -28,7 +28,11 @@ class LevelCircle {
     }
 
     setDesiredRadius(radius) {
-        this.desiredRadius = radius;
+        if (radius >= 0) {
+            this.desiredRadius = radius;
+        } else {
+            this.desiredRadius = 0;
+        }
     }
 
     setDesiredX(x) {
@@ -40,8 +44,8 @@ class LevelCircle {
     }
 
     update(timeStamp) {
-        console.log(this.desiredRadius);
-        console.log(this.radius);
+        // console.log(this.desiredRadius);
+        // console.log(this.radius);
         let delta = timeStamp - this.previousUpdateTime;
         this.previousUpdateTime = timeStamp;
         this.x += delta / 100 * (this.desiredX - this.x);
