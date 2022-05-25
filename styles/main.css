@@ -1,10 +1,10 @@
 @font-face {
-    font-family: 'Exo 2 Medium';
-    src: url('../assets/Exo2-Medium.ttf');
+    font-family: 'Comfortaa';
+    src: url('../assets/Comfortaa-VariableFont_wght.ttf');
 }
 
 html {
-    font-family: 'Exo 2 Medium';
+    font-family: 'Comfortaa';
 }
 
 .topBar {

@@ -1,6 +1,6 @@
 class LevelCircle {
 
-    constructor(x, y, radius, progress = 0.3) {
+    constructor(x, y, radius, progress = 0.3, stat) {
         this.x = x;
         this.y = y;
         this.desiredX = x;
@@ -11,20 +11,48 @@ class LevelCircle {
 
         this.progress = progress;
 
+        this.stat = stat;
+
         this.previousUpdateTime = performance.now();
     }
 
     draw(canvasContext) {
         canvasContext.save();
+
         canvasContext.beginPath();
-        // canvasContext.translate(this.x, this.y);
-        canvasContext.ellipse(this.x, this.y, this.radius * 1.2, this.radius * 1.2, 0, 0, 2 * Math.PI);
+        canvasContext.translate(this.x, this.y);
+        canvasContext.ellipse(0, 0, this.radius * 1.2, this.radius * 1.2, 0, 0, 2 * Math.PI);
         canvasContext.fill();
+
+        canvasContext.lineWidth = this.radius / 10.1;
+
+        canvasContext.strokeStyle = '#222222';
         canvasContext.beginPath();
-        canvasContext.arc(this.x, this.y, this.radius, -0.5 * Math.PI, this.progress * 2 * Math.PI - 0.5 * Math.PI, false);
-        canvasContext.lineWidth = this.radius / 20;
+        canvasContext.arc(0, 0, this.radius, 0, 2 * Math.PI, false);
         canvasContext.stroke();
+
+
+        const progressGradient = canvasContext.createLinearGradient(0, -this.radius, 0, this.radius);
+        progressGradient.addColorStop(0, 'cyan');
+        progressGradient.addColorStop(1, 'yellow');
+        canvasContext.strokeStyle = progressGradient;
+
+        canvasContext.lineWidth = this.radius / 10;
+        canvasContext.beginPath();
+        canvasContext.arc(0, 0, this.radius, -0.5 * Math.PI, this.progress * 2 * Math.PI - 0.5 * Math.PI, false);
+        canvasContext.stroke();
+
+
+        canvasContext.fillStyle = '#ffffff'
+
+        canvasContext.font = this.radius * 0.25 + 'px Comfortaa';
+        canvasContext.fillText(this.stat.name, 0, -this.radius / 5);
+
+        canvasContext.font = this.radius * 0.2 + 'px Comfortaa';
+        canvasContext.fillText("Level " + this.stat.level, 0, this.radius / 5);
+
         canvasContext.restore();
+
     }
 
     setDesiredRadius(radius) {
