@@ -1,3 +1,6 @@
+const { contextBridge, ipcRenderer } = require("electron")
+
+
 window.addEventListener('DOMContentLoaded', () => {
     const replaceText = (selector, text) => {
         const element = document.getElementById(selector)
@@ -7,4 +10,9 @@ window.addEventListener('DOMContentLoaded', () => {
     for (const dependency of['chrome', 'node', 'electron']) {
         replaceText(`${dependency}-version`, process.versions[dependency])
     }
+})
+
+contextBridge.exposeInMainWorld('statsAPI', {
+    getUserStats: () => ipcRenderer.send('get-stats'),
+    handleStatsUpdate: (callback) => ipcRenderer.on('update-stats', callback)
 })

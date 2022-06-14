@@ -1,4 +1,4 @@
-const { app, BrowserWindow } = require('electron')
+const { app, BrowserWindow, ipcMain } = require('electron')
 const path = require('path')
 
 const createWindow = () => {
@@ -8,8 +8,15 @@ const createWindow = () => {
         icon: "./assets/SCOER.png",
         webPreferences: {
             preload: path.join(__dirname, 'preload.js'),
-            webSecurity: false
+            // webSecurity: false
         }
+    })
+
+    ipcMain.on('get-stats', () => {
+        console.log("a")
+        win.webContents.send('update-stats', {
+            score: 1000
+        })
     })
 
     win.loadFile('index.html')
