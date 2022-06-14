@@ -19,7 +19,7 @@ html {
     transition-duration: 0.5s;
 }
 
-.statDisplayText {
+#statDisplayText {
     padding: 10px;
     font-size: 5vh;
     color: #EEEEEE;

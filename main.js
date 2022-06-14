@@ -14,9 +14,7 @@ const createWindow = () => {
 
     ipcMain.on('get-stats', () => {
         console.log("a")
-        win.webContents.send('update-stats', {
-            score: 1000
-        })
+        win.webContents.send('update-stats', getUserStats())
     })
 
     win.loadFile('index.html')
@@ -29,3 +27,11 @@ app.whenReady().then(() => {
 app.on('window-all-closed', () => {
     if (process.platform !== 'darwin') app.quit()
 })
+
+function getUserStats(){
+    return {
+        score: 246_309_531_781,
+        clears: 69_723,
+        ss: 22_363
+    }
+}
