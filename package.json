@@ -11,5 +11,8 @@
     "license": "MIT",
     "devDependencies": {
         "electron": "^18.1.0"
+    },
+    "dependencies": {
+        "node-osu": "^2.2.1"
     }
 }
