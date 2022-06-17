@@ -7,6 +7,8 @@ const circleTitles = [
     "SS"
 ]
 
+const CIRCLE_COUNT = 3;
+
 function carouselScroll(event) {
     if (event.key == 'ArrowRight') {
         currentCircle++;
@@ -23,8 +25,6 @@ function carouselScroll(event) {
 
 const carouselCanvas = document.getElementById("levelCircleCarousel")
 document.addEventListener('keydown', carouselScroll)
-
-const CIRCLE_COUNT = 3;
 
 function windowResize() {
     carouselCanvas.width = window.innerWidth;
