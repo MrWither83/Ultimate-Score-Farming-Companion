@@ -10,6 +10,7 @@ class LevelCircle {
         this.desiredRadius = radius;
 
         this.progress = progress;
+        this.desiredProgress = progress;
 
         this.stat = stat;
 
@@ -51,6 +52,9 @@ class LevelCircle {
         canvasContext.font = this.radius * 0.2 + 'px Comfortaa';
         canvasContext.fillText("Level " + this.stat.level, 0, this.radius / 5);
 
+        canvasContext.font = this.radius * 0.1 + 'px Comfortaa';
+        canvasContext.fillText("Next at : " + this.stat.nextLevelRequirement.toLocaleString('en-US'), 0, 2 * this.radius / 5);
+
         canvasContext.restore();
 
     }
@@ -71,6 +75,15 @@ class LevelCircle {
         this.desiredY = y;
     }
 
+    setStat(stat) {
+        this.stat = stat;
+        this.updateDesiredProgress();
+    }
+
+    updateDesiredProgress() {
+        this.desiredProgress = this.stat.progress;
+    }
+
     update(timeStamp) {
         // console.log(this.desiredRadius);
         // console.log(this.radius);
@@ -79,6 +92,7 @@ class LevelCircle {
         this.x += delta / 100 * (this.desiredX - this.x);
         this.y += delta / 100 * (this.desiredY - this.y);
         this.radius += delta / 100 * (this.desiredRadius - this.radius);
+        this.progress += delta / 100 * (this.desiredProgress - this.progress);
         requestAnimationFrame(this.update.bind(this));
     }
 }

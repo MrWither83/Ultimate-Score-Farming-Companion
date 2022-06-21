@@ -3,7 +3,7 @@ let currentCircle = 1;
 
 const circleTitles = [
     "Clears",
-    "Score",
+    "Ranked Score",
     "SS"
 ]
 
@@ -89,12 +89,21 @@ function init() {
         stat = {};
         stat.name = circleTitles[i];
         stat.level = -Math.pow((i - 1) * 2, 4) - i * 5 + 40;
+        stat.nextLevelRequirement = 0;
 
         const levelCircle = new LevelCircle(X, Y, R, (i + 1) * 0.3, stat);
         requestAnimationFrame(levelCircle.update.bind(levelCircle));
         levelCircles.push(levelCircle);
     }
     requestAnimationFrame(draw);
+}
+
+function updateLevelCircle(stat) {
+    levelCircles.forEach(levelCircle => {
+        if (levelCircle.stat.name === stat.name) {
+            levelCircle.setStat(stat);
+        }
+    });
 }
 
 init();
