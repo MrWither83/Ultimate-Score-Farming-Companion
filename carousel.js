@@ -1,6 +1,3 @@
-let levelCircles = [];
-let currentCircle = 1;
-
 const circleTitles = [
     "Clears",
     "Ranked Score",
@@ -9,101 +6,94 @@ const circleTitles = [
 
 const CIRCLE_COUNT = 3;
 
-function carouselScroll(event) {
-    if (event.key == 'ArrowRight') {
-        currentCircle++;
-        currentCircle = Math.min(currentCircle, CIRCLE_COUNT - 1);
-        updateCirclePositions();
-    }
-    if (event.key == 'ArrowLeft') {
-        currentCircle--;
-        currentCircle = Math.max(currentCircle, 0);
-        updateCirclePositions();
-    }
-    // console.log(event);
-}
+class LevelCircleCarousel {
 
-const carouselCanvas = document.getElementById("levelCircleCarousel")
-document.addEventListener('keydown', carouselScroll)
+    constructor(carouselCanvas) {
+        this.levelCircles = [];
+        this.currentCircle = 1;
 
-function windowResize() {
-    carouselCanvas.width = window.innerWidth;
-    carouselCanvas.height = window.innerHeight;
+        this.carouselCanvas = carouselCanvas;
+        
+        for (let i = 0; i < CIRCLE_COUNT; i++) {
+            var X = this.getCircleX(i);
+            var Y = this.getCircleY(i);
+            var R = this.getCircleRadius(i);
 
-    updateCirclePositions();
+            let stat = {};
+            stat.name = circleTitles[i];
+            stat.level = -Math.pow((i - 1) * 2, 4) - i * 5 + 40;
+            stat.nextLevelRequirement = 0;
 
-    draw();
-};
-
-function updateCirclePositions() {
-    for (let index = 0; index < levelCircles.length; index++) {
-        const circle = levelCircles[index];
-        circle.setDesiredX(getCircleX(index));
-        circle.setDesiredY(getCircleY(index));
-        circle.setDesiredRadius(getCircleRadius(index));
-    }
-}
-
-window.addEventListener('resize', windowResize);
-
-
-function getCircleX(circleIndex) {
-    return -(currentCircle - circleIndex) * carouselCanvas.width / 3 + carouselCanvas.width / 2;
-}
-
-function getCircleY(circleIndex) {
-    return carouselCanvas.height / 2 + Math.abs(currentCircle - circleIndex) * carouselCanvas.height / 6;
-}
-
-function getCircleRadius(circleIndex) {
-    let minDimension = Math.min(carouselCanvas.height, carouselCanvas.width);
-    return minDimension / 4 - Math.abs(currentCircle - circleIndex) * minDimension / 10
-}
-
-function draw() {
-    if (carouselCanvas.getContext) {
-        var ctx = carouselCanvas.getContext('2d');
-
-        ctx.fillStyle = '#333333'
-
-        ctx.textAlign = 'center'
-        ctx.textBaseline = 'middle'
-
-        ctx.clearRect(0, 0, carouselCanvas.width, carouselCanvas.height);
-        levelCircles.forEach(circle => {
-            circle.draw(ctx);
-        })
-    }
-    requestAnimationFrame(draw);
-}
-
-function init() {
-    carouselCanvas.width = window.innerWidth;
-    carouselCanvas.height = window.innerHeight;
-
-    for (let i = 0; i < CIRCLE_COUNT; i++) {
-        var X = getCircleX(i);
-        var Y = getCircleY(i);
-        var R = getCircleRadius(i);
-
-        stat = {};
-        stat.name = circleTitles[i];
-        stat.level = -Math.pow((i - 1) * 2, 4) - i * 5 + 40;
-        stat.nextLevelRequirement = 0;
-
-        const levelCircle = new LevelCircle(X, Y, R, (i + 1) * 0.3, stat);
-        requestAnimationFrame(levelCircle.update.bind(levelCircle));
-        levelCircles.push(levelCircle);
-    }
-    requestAnimationFrame(draw);
-}
-
-function updateLevelCircle(stat) {
-    levelCircles.forEach(levelCircle => {
-        if (levelCircle.stat.name === stat.name) {
-            levelCircle.setStat(stat);
+            const levelCircle = new LevelCircle(X, Y, R, (i + 1) * 0.3, stat);
+            this.levelCircles.push(levelCircle);
+            
+            requestAnimationFrame(levelCircle.update.bind(levelCircle));
         }
-    });
-}
+        
+        this.draw = this.draw.bind(this);
+        this.carouselScroll = this.carouselScroll.bind(this);
+        requestAnimationFrame(this.draw);
+    }
 
-init();
+    carouselScroll(event) {
+        if (event.key == 'ArrowRight') {
+            this.currentCircle++;
+            this.currentCircle = Math.min(this.currentCircle, CIRCLE_COUNT - 1);
+            this.updateCirclePositions();
+        }
+        if (event.key == 'ArrowLeft') {
+            this.currentCircle--;
+            this.currentCircle = Math.max(this.currentCircle, 0);
+            this.updateCirclePositions();
+        }
+        // console.log(event);
+    }
+
+    updateCirclePositions() {
+        for (let index = 0; index < this.levelCircles.length; index++) {
+            const circle = this.levelCircles[index];
+            circle.setDesiredX(this.getCircleX(index));
+            circle.setDesiredY(this.getCircleY(index));
+            circle.setDesiredRadius(this.getCircleRadius(index));
+        }
+    }
+
+    getCircleX(circleIndex) {
+        return -(this.currentCircle - circleIndex) * this.carouselCanvas.width / 3 + this.carouselCanvas.width / 2;
+    }
+
+    getCircleY(circleIndex) {
+        return this.carouselCanvas.height / 2 + Math.abs(this.currentCircle - circleIndex) * this.carouselCanvas.height / 6;
+    }
+
+    getCircleRadius(circleIndex) {
+        let minDimension = Math.min(this.carouselCanvas.height, this.carouselCanvas.width);
+        return minDimension / 4 - Math.abs(this.currentCircle - circleIndex) * minDimension / 10
+    }
+
+    draw() {
+        if (this.carouselCanvas.getContext) {
+            var ctx = this.carouselCanvas.getContext('2d');
+
+            ctx.fillStyle = '#333333'
+
+            ctx.textAlign = 'center'
+            ctx.textBaseline = 'middle'
+
+            ctx.clearRect(0, 0, this.carouselCanvas.width, this.carouselCanvas.height);
+            this.levelCircles.forEach(circle => {
+                circle.draw(ctx);
+            })
+        }
+        requestAnimationFrame(this.draw);
+    }
+
+    updateLevelCircle(stat) {
+        this.levelCircles.forEach(levelCircle => {
+            if (levelCircle.stat.name === stat.name) {
+                levelCircle.setStat(stat);
+            }
+        });
+    }
+
+}
